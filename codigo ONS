@@ -1,0 +1,94 @@
+# oficina-virtual-auxiliador-ONS
+
+class ONG:
+    def __init__(self, nome, area_atuacao, contato):
+        self.nome = nome
+        self.area_atuacao = area_atuacao
+        self.contato = contato
+        self.atividades = []
+
+    def adicionar_atividade(self, atividade):
+        self.atividades.append(atividade)
+
+    def exibir_relatorio(self):
+        print(f"\n🔹 Relatório da ONG: {self.nome}")
+        print(f"Área de atuação: {self.area_atuacao}")
+        print(f"Contato: {self.contato}")
+        print("Atividades registradas:")
+        if self.atividades:
+            for idx, atividade in enumerate(self.atividades, 1):
+                print(f"  {idx}. {atividade}")
+        else:
+            print("  Nenhuma atividade registrada.")
+
+
+class OficinaVirtual:
+    def __init__(self):
+        self.ongs = []
+
+    def cadastrar_ong(self):
+        nome = input("Digite o nome da ONG: ")
+        area = input("Digite a área de atuação: ")
+        contato = input("Digite o contato (email ou telefone): ")
+        nova_ong = ONG(nome, area, contato)
+        self.ongs.append(nova_ong)
+        print("✅ ONG cadastrada com sucesso!\n")
+
+    def listar_ongs(self):
+        if not self.ongs:
+            print("Nenhuma ONG cadastrada ainda.")
+            return
+        print("\nLista de ONGs cadastradas:")
+        for i, ong in enumerate(self.ongs, 1):
+            print(f"{i}. {ong.nome} - {ong.area_atuacao}")
+
+    def registrar_atividade(self):
+        self.listar_ongs()
+        if not self.ongs:
+            return
+        try:
+            index = int(input("Selecione o número da ONG para adicionar atividade: ")) - 1
+            atividade = input("Descreva a atividade realizada: ")
+            self.ongs[index].adicionar_atividade(atividade)
+            print("✅ Atividade registrada com sucesso!\n")
+        except (IndexError, ValueError):
+            print("❌ Seleção inválida.")
+
+    def mostrar_relatorio(self):
+        self.listar_ongs()
+        if not self.ongs:
+            return
+        try:
+            index = int(input("Selecione o número da ONG para ver relatório: ")) - 1
+            self.ongs[index].exibir_relatorio()
+        except (IndexError, ValueError):
+            print("❌ Seleção inválida.")
+
+    def menu(self):
+        while True:
+            print("\n==== Oficina Virtual para ONGs ====")
+            print("1. Cadastrar nova ONG")
+            print("2. Listar ONGs")
+            print("3. Registrar atividade")
+            print("4. Ver relatório da ONG")
+            print("5. Sair")
+            opcao = input("Escolha uma opção: ")
+
+            if opcao == '1':
+                self.cadastrar_ong()
+            elif opcao == '2':
+                self.listar_ongs()
+            elif opcao == '3':
+                self.registrar_atividade()
+            elif opcao == '4':
+                self.mostrar_relatorio()
+            elif opcao == '5':
+                print("👋 Encerrando o sistema. Até logo!")
+                break
+            else:
+                print("❌ Opção inválida. Tente novamente.")
+
+# Executando o sistema
+if __name__ == "__main__":
+    sistema = OficinaVirtual()
+    sistema.menu()
